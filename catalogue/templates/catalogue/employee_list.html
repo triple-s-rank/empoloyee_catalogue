@@ -5,20 +5,24 @@
     <title>Title</title>
 </head>
 <body>
-{% for jun in page_obj %}
-<div>
-{{ jun }}
-</div>
-{% endfor %}
-{% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}">next</a>
-    <a href="?page={{ page_obj.paginator.num_pages }}">last</a>
-{% endif %}
-<!--    <ul>-->
-<!--        {% for junior in juniors %}-->
-<!--            <li>{{ junior.first_name }} {{ junior.last_name }} - {{ junior.get_role_display }} developer</li>-->
-<!--        {% endfor %}-->
-<!--    </ul>-->
+
+    {% for manager in page_obj %}
+        <div>
+            <ul>
+                {{ manager }}
+                {% for teamlead in manager.subordinates.all %}
+                    <li>
+                            {{ teamlead }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">last</a>
+    {% endif %}
 
 </body>
 </html>
