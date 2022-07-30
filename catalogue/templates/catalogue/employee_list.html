@@ -1,28 +1,60 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
-    {% for manager in page_obj %}
-        <div>
-            <ul>
-                {{ manager }}
-                {% for teamlead in manager.subordinates.all %}
-                    <li>
-                            {{ teamlead }}
-                    </li>
-                {% endfor %}
-            </ul>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+
+
+</style>
+</head>
+
+<body class="p-3 m-0 border-0 bd-example">
+<div style="on">
+    <p>
+        {% for manager in page_obj %}
+        <button class="btn btn-primary collapsed" type="button" id="parent{{manager.id}}" data-bs-toggle="collapse" data-bs-target="#collapse{{manager.id}}" aria-expanded="false" aria-controls="collapse">
+            {{manager}} - {{manager.get_role_display|title}}
+        </button>
+    </p>
+    <p>
+        {% for teamlead in manager.subordinates.all %}
+    <div class="btn-primary collapsed collapse" id="collapse{{manager.id}}"  data-parent="parent{{manager.id}}" data-bs-toggle="collapse" data-bs-target="#collapse{{teamlead.id}}" aria-expanded="false" aria-controls="collapse">
+        <div class="card card-body">
+            {{teamlead}} - {{teamlead.get_role_display|title}}
         </div>
+    </div>
+    </p>
+    <p>
+    {% for senior in teamlead.subordinates.all %}
+    <div class="btn-primary collapsed collapse" id="collapse{{teamlead.id}}" data-parent="parent{{manager.id}}" data-bs-toggle="collapse" data-bs-target="#collapse{{senior.id}}" aria-expanded="false" aria-controls="collapse">
+        <div class="card card-body">
+            {{senior}} - {{senior.get_role_display|title}}
+        </div>
+    </div>
+    </p>
+    {% for middle in senior.subordinates.all %}
+    <div class="collapse" id="collapse{{senior.id}}" style="">
+        <div class="card card-body">
+            {{middle}} - {{middle.get_role_display|title}}
+        </div>
+    </div>
+    {% endfor %}
+    {% endfor %}
+    {% endfor %}
     {% endfor %}
 
     {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">next</a>
-        <a href="?page={{ page_obj.paginator.num_pages }}">last</a>
+    <a href="?page={{ page_obj.next_page_number }}">next</a>
+    <a href="?page={{ page_obj.paginator.num_pages }}">last</a>
     {% endif %}
 
+
+</div>
 </body>
 </html>
