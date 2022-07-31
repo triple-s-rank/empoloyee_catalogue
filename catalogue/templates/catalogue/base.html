@@ -23,29 +23,50 @@
     </li>
 </ul>
 
+
+<th></th>
+
+</tr>
+
+
 <div class="container mt-2">
 
     <table class="table table-borderless table-hover caption-top mb-3">
         <caption>List of all employees - page №{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</caption>
         <thead>
-            <tr>
-                <th scope="col">Name <button type="button" class="btn btn-dark">filter</button><button type="button" class="btn btn-dark ms-1">rev filter</button></th>
-
-                <th scope="col">Age</th>
-                <th scope="col">Position</th>
-                <th scope="col">Salary (USD)</th>
-            </tr>
+        <tr>
+            {% if request.path == '/catalogue/all/ordered_by_name/' %}
+            <th scope="col"><a href="{% url 'ordered_by_name_reverse' %}">Name</a></th>
+            {% else %}
+            <th scope="col"><a href="{% url 'ordered_by_name' %}">Name</a></th>
+            {% endif %}
+            {% if request.path == '/catalogue/all/ordered_by_age/' %}
+            <th scope="col"><a href="{% url 'ordered_by_age_reverse' %}">Age</a></th>
+            {% else %}
+            <th scope="col"><a href="{% url 'ordered_by_age' %}">Age</a></th>
+            {% endif %}
+            {% if request.path == '/catalogue/all/ordered_by_position/' %}
+            <th scope="col"><a href="{% url 'ordered_by_position_reverse' %}">Position</a></th>
+            {% else %}
+            <th scope="col"><a href="{% url 'ordered_by_position' %}">Position</a></th>
+            {% endif %}
+            {% if request.path == '/catalogue/all/ordered_by_salary/' %}
+            <th scope="col"><a href="{% url 'ordered_by_salary_reverse' %}">Salary (USD)</a></th>
+            {% else %}
+            <th scope="col"><a href="{% url 'ordered_by_salary' %}">Salary (USD)</a></th>
+            {% endif %}
+        </tr>
         </thead>
 
         <tbody class="table-group-divider">
-            {% for worker in workers %}
-            <tr>
-                <td><a class="text-muted link-secondary" href="#">{{worker.last_name}} {{ worker.first_name}}</a></td>
-                <td>{{ worker.age }}</td>
-                <td>{{ worker.get_role_display|title }}</td>
-                <td>{{ worker.salary }}</td>
-            </tr>
-            {% endfor %}
+        {% for worker in workers %}
+        <tr>
+            <td><a class="text-muted link-secondary" href="#">{{worker.last_name}} {{ worker.first_name}}</a></td>
+            <td>{{ worker.age }}</td>
+            <td>{{ worker.get_role_display|title }}</td>
+            <td>{{ worker.salary }}</td>
+        </tr>
+        {% endfor %}
         </tbody>
     </table>
 
@@ -53,21 +74,21 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination ">
                 {% if page_obj.has_previous %}
-                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
-                    <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
                 {% endif %}
                 {% if page_obj.number > 3 %}
-                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.number|add:'-2' }}">{{ page_obj.number|add:'-2' }}</a></li>
-                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.number|add:'-1' }}">{{ page_obj.number|add:'-1' }}</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.number|add:'-2' }}">{{ page_obj.number|add:'-2' }}</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.number|add:'-1' }}">{{ page_obj.number|add:'-1' }}</a></li>
                 {% endif %}
-                    <li class="page-item active"><span class="page-link">{{ page_obj.number }}</span></li>
+                <li class="page-item active"><span class="page-link">{{ page_obj.number }}</span></li>
                 {% if page_obj.number < page_obj.paginator.num_pages|add:'-1' %}
-                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.number|add:'1' }}">{{ page_obj.number|add:'1' }}</a></li>
-                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.number|add:'2' }}">{{ page_obj.number|add:'2' }}</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.number|add:'1' }}">{{ page_obj.number|add:'1' }}</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.number|add:'2' }}">{{ page_obj.number|add:'2' }}</a></li>
                 {% endif %}
                 {% if page_obj.has_next %}
-                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
-                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
                 {% endif %}
             </ul>
         </nav>

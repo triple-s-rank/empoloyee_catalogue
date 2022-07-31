@@ -20,14 +20,41 @@ def employee_list(request):
 
 
 class EmployeeList(ListView):
+
     model = Employee
     paginate_by = 50
     template_name = 'catalogue/base.html'
     context_object_name = 'workers'
     queryset = Employee.objects.all()
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['order_by_alphabet'] = Employee.objects.order_by('last_name')
-        context['order_by_alphabet_reverse'] = Employee.objects.order_by('-last_name')
-        return context
+
+class OrderByName(EmployeeList, ListView):
+    ordering = ['last_name']
+
+
+class OrderByNameReverse(EmployeeList, ListView):
+    ordering = ['-last_name']
+
+
+class OrderByAge(EmployeeList, ListView):
+    ordering = ['age', 'last_name']
+
+
+class OrderByAgeReverse(EmployeeList, ListView):
+    ordering = ['-age', 'last_name']
+
+
+class OrderByPosition(EmployeeList, ListView):
+    ordering = ['role', 'last_name']
+
+
+class OrderByPositionReverse(EmployeeList, ListView):
+    ordering = ['-role', 'last_name']
+
+
+class OrderBySalary(EmployeeList, ListView):
+    ordering = ['salary', 'last_name']
+
+
+class OrderBySalaryReverse(EmployeeList, ListView):
+    ordering = ['-salary', 'last_name']
