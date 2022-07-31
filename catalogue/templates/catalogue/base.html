@@ -29,7 +29,8 @@
         <caption>List of all employees - page №{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</caption>
         <thead>
             <tr>
-                <th scope="col">Name</th>
+                <th scope="col">Name <button type="button" class="btn btn-dark">filter</button><button type="button" class="btn btn-dark ms-1">rev filter</button></th>
+
                 <th scope="col">Age</th>
                 <th scope="col">Position</th>
                 <th scope="col">Salary (USD)</th>
@@ -39,7 +40,7 @@
         <tbody class="table-group-divider">
             {% for worker in workers %}
             <tr>
-                <td><a href="#">{{ worker.first_name}} {{worker.last_name}}</a></td>
+                <td><a class="text-muted link-secondary" href="#">{{worker.last_name}} {{ worker.first_name}}</a></td>
                 <td>{{ worker.age }}</td>
                 <td>{{ worker.get_role_display|title }}</td>
                 <td>{{ worker.salary }}</td>

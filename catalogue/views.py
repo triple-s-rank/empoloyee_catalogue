@@ -24,6 +24,10 @@ class EmployeeList(ListView):
     paginate_by = 50
     template_name = 'catalogue/base.html'
     context_object_name = 'workers'
+    queryset = Employee.objects.all()
 
-    def get_queryset(self):
-        return Employee.objects.all()
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['order_by_alphabet'] = Employee.objects.order_by('last_name')
+        context['order_by_alphabet_reverse'] = Employee.objects.order_by('-last_name')
+        return context
