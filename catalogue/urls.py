@@ -12,5 +12,6 @@ urlpatterns = [
     path('all/ordered_by_position/', views.OrderByPosition.as_view(), name='ordered_by_position'),
     path('all/ordered_by_position_reverse/', views.OrderByPositionReverse.as_view(), name='ordered_by_position_reverse'),
     path('all/ordered_by_salary/', views.OrderBySalary.as_view(), name='ordered_by_salary'),
-    path('all/ordered_by_salary_reverse/', views.OrderBySalaryReverse.as_view(), name='ordered_by_salary_reverse')
+    path('all/ordered_by_salary_reverse/', views.OrderBySalaryReverse.as_view(), name='ordered_by_salary_reverse'),
+    path('employee/<slug:slug>/', views.EmployeeDetail.as_view(), name='employee_detail')
 ]

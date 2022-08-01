@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from catalogue.models import Employee
 
@@ -19,11 +19,16 @@ def employee_list(request):
     )
 
 
+class EmployeeDetail(DetailView):
+    model = Employee
+    template_name = 'catalogue/employee.html'
+
+
 class EmployeeList(ListView):
 
     model = Employee
     paginate_by = 50
-    template_name = 'catalogue/base.html'
+    template_name = 'catalogue/all_employees_list.html'
     context_object_name = 'workers'
     queryset = Employee.objects.all()
 

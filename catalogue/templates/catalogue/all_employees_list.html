@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+    {% block title %} Employees list{% endblock %}
+
+
+    {% block content%}
+        <table class="table table-borderless table-hover caption-top mb-3">
+        <caption>List of all employees - page №{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</caption>
+        <thead>
+        <tr>
+            {% if request.path == '/catalogue/all/ordered_by_name/' %}
+            <th scope="col"><a class="text-muted" href="{% url 'ordered_by_name_reverse' %}">Name</a></th>
+            {% else %}
+            <th scope="col"><a  class="text-muted" href="{% url 'ordered_by_name' %}">Name</a></th>
+            {% endif %}
+            {% if request.path == '/catalogue/all/ordered_by_age/' %}
+            <th scope="col"><a class="text-muted" href="{% url 'ordered_by_age_reverse' %}">Age</a></th>
+            {% else %}
+            <th scope="col"><a class="text-muted" href="{% url 'ordered_by_age' %}">Age</a></th>
+            {% endif %}
+            {% if request.path == '/catalogue/all/ordered_by_position/' %}
+            <th scope="col"><a class="text-muted" href="{% url 'ordered_by_position_reverse' %}">Position</a></th>
+            {% else %}
+            <th scope="col"><a class="text-muted" href="{% url 'ordered_by_position' %}">Position</a></th>
+            {% endif %}
+            {% if request.path == '/catalogue/all/ordered_by_salary/' %}
+            <th scope="col"><a class="text-muted" href="{% url 'ordered_by_salary_reverse' %}">Salary (USD)</a></th>
+            {% else %}
+            <th scope="col"><a class="text-muted" href="{% url 'ordered_by_salary' %}">Salary (USD)</a></th>
+            {% endif %}
+        </tr>
+        </thead>
+
+        <tbody class="table-group-divider">
+        {% for worker in workers %}
+        <tr>
+            <td><a class="text-muted link-secondary" href="#">{{worker.last_name}} {{ worker.first_name}}</a></td>
+            <td>{{ worker.age }}</td>
+            <td>{{ worker.get_role_display|title }}</td>
+            <td>{{ worker.salary }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% include 'includes/pagination.html' %}
+    {% endblock %}
+
